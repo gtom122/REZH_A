@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <title>Regisztráció</title>
+  <style>
+    body {
+      background-color: #99f;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      padding: 20px;
+    }
+    
+    label {
+      display: inline-block;
+      width: 80px; /* Válassz egységes szélességet */
+      font-weight: bold;
+    }
+
+    .error {
+      background-color: #f99;
+    }
+
+    .error-message {
+      color: red;
+      font-weight: bold;
+    }
+
+    .form-box {
+      display: flex;
+      gap: 20px;
+    }
+
+    img {
+      width: 250px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div id="header">Gellén Tamás - FH4U3E</div>
+      <h1>WEB-PROGRAMOZÁS I.</h1>
+      <h2>Regisztráció</h2>
+      <form id="regForm" action="feldolgoz.php" method="POST" onsubmit="return validateForm()">
+        <div class = "form-box">
+          <div>
+            <label for="email">E-mail:</label>
+            <input type="text" name="email" id="email" required><br><br>
+          
+            <label for="nev">Név:</label>
+            <input type="text" name="nev" id="nev" required><br><br>
+
+            <label for="jelszo">Jelszó:</label>
+            <input type="password" name="jelszo" id="jelszo" required><br><br>
+
+            <label for="kor">Kor:</label>
+            <input type="number" name="kor" id="kor" required><br><br>
+
+            <label>Nem:</label>
+            <input type="radio" name="nem" value="Férfi"> Férfi
+            <input type="radio" name="nem" value="Nő"> Nő<br><br>
+          
+            <button type="submit">Küldés</button>
+          </div>
+
+        <div>
+          <img src="img/kep.jpg" alt="Kép">
+        </div>
+      </form>
+    </div>
+
+  <script>
+    function validateForm() {
+      let isValid = true;
+      var checkPattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+      const email = document.getElementById("email");
+      const nev = document.getElementById("nev");
+      const jelszo = document.getElementById("jelszo");
+      const kor = document.getElementById("kor");
+      const nem = document.querySelector('input[name="nem"]:checked');
+
+      const errors = ["email", "nev", "jelszo", "kor", "nem"];
+      errors.forEach(e => {
+        document.getElementById(e + "-error").innerText = "";
+        if (document.getElementById(e)) document.getElementById(e).classList.remove("error");
+      });
+
+      if (!email.value || !checkPattern.test(email.value)) {
+        document.getElementById("email-error").innerText = "Hibás adat: e-mail";
+        email.classList.add("error");
+        isValid = false;
+      }
+
+      if (!nev.value || nev.value.length < 5 || nev.value.length > 30) {
+        document.getElementById("nev-error").innerText = "Hibás adat: név";
+        nev.classList.add("error");
+        isValid = false;
+      }
+
+      if (!jelszo.value || jelszo.value.length < 6 || jelszo.value.length > 12) {
+        document.getElementById("jelszo-error").innerText = "Hibás adat: jelszó";
+        jelszo.classList.add("error");
+        isValid = false;
+      }
+
+      if (!kor.value || isNaN(kor.value) || kor.value < 18 || kor.value > 100) {
+        document.getElementById("kor-error").innerText = "Hibás adat: kor";
+        kor.classList.add("error");
+        isValid = false;
+      }
+
+      if (!nem) {
+        document.getElementById("nem-error").innerText = "Hibás adat: nem";
+        isValid = false;
+      }
+
+      return isValid;
+    }
+  </script>
+</body>
+</html>
+
